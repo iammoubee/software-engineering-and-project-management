@@ -70,3 +70,39 @@ class Test {
         System.out.println(t2.count);
     }
 }
+
+
+day:2
+topic:Race condition
+**********************************
+
+class CookingTask extends Thread {
+
+    static int count = 0;
+
+    public void run() {
+        for (int i = 1; i <= 5; i++) {
+            count++;
+            System.out.println(getName() + " : " + i);
+        }
+    }
+}
+
+public class ThreadMain {
+    public static void main(String[] args) throws InterruptedException {
+
+        CookingTask t1 = new CookingTask();
+        CookingTask t2 = new CookingTask();
+
+        t1.setName("Cooking");
+        t2.setName("Washing");
+
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+
+        System.out.println("Count = " + count);
+    }
+}
